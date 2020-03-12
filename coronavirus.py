@@ -11,6 +11,7 @@ from collections import Counter
 
 d = datetime.datetime.now()
 
+#print(d.day)
 date_csv = '0'+ str(d.month) + '-' + str(d.day) + '-' + str(d.year) + '.csv'
 
 day_links = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/' + str(date_csv)
@@ -21,12 +22,12 @@ def access_Link(link):
     uClient.close()
     main_soup = bs(html, "lxml")
 
-    for main in main_soup.find_all('body'):
-        corona_data = main.get_text()
+    main_soup.body.get_text()
+    return
 
 access_Link(day_links)
 
-    
+
 
 
 
