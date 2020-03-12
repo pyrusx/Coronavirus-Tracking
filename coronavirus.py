@@ -33,17 +33,26 @@ today_links = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/
 yesterday_links = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/' + str(yesterday_date_csv)
 
 
+
+
+
 #~ access_Links retrieves the data in string form 
 def access_Link(link):
-    uClient = uReq(link)
-    html = uClient.read()
-    uClient.close()
-    main_soup = bs(html, "lxml")
+        uClient = uReq(link)
+        html = uClient.read()
+        uClient.close()
+        main_soup = bs(html, "lxml")
 
-    return main_soup.body.get_text()
+        return main_soup.body.get_text()
+
+def get_proper_Link():
+    try:
+        return access_Link(today_links)
+    except:
+        return access_Link(yesterday_links)
     
 #~ saving the data to a variable
-csv_string = access_Link(today_links)
+csv_string = get_proper_Link()
 
 #~ str_csv converts the data in string format to csv format
 def str_csv(string):
