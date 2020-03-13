@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import datetime
 import sys
 import csv
+import numpy as np 
+
 
 if sys.version_info[0] < 3: 
     from StringIO import StringIO
@@ -56,23 +58,29 @@ def get_proper_Link():
     except:
         return access_Link(yesterday_links)
 
-def str_df_access_Link():
-    #~ saving the data to a variable
-    convertedCSV = StringIO(csv_string)
-    df = pd.read_csv(convertedCSV, sep =",") 
-    print(df)
+# def str_df_access_Link():
+#     #~ saving the data to a variable
+#     convertedCSV = StringIO(csv_string)
+#     df = pd.read_csv(convertedCSV, sep =",") 
+#     print(df)
 
 
 #~ str_df converts the data in string format to dataframe format
 def str_df_get_proper_Link():
+
     #~ saving the data to a variable
     csv_string = get_proper_Link()
 
     convertedCSV = StringIO(csv_string)
     df = pd.read_csv(convertedCSV, sep =",") 
-    print(df)
+    df_renamed = df.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
 
-str_df_get_proper_Link
+str_df_get_proper_Link()
+
+
+
+#def dataFrameAnalysis():
+
 #// #TODO Make yesterday/today error go away\
 
 # #// #! error: main_df does not print properly, something is going wrong from line 68-75, need to figure out how to make functions work together
