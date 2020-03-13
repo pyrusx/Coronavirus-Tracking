@@ -39,6 +39,7 @@ today_links = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/
 yesterday_links = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/' + str(yesterday_date_csv)
 
 
+
 #~ access_Links retrieves the data in string form 
 def access_Link(link):
         uClient = uReq(link)
@@ -54,10 +55,16 @@ def get_proper_Link():
         return access_Link(today_links)
     except:
         return access_Link(yesterday_links)
-    
+
+def str_df_access_Link():
+    #~ saving the data to a variable
+    convertedCSV = StringIO(csv_string)
+    df = pd.read_csv(convertedCSV, sep =",") 
+    print(df)
+
 
 #~ str_df converts the data in string format to dataframe format
-def str_df():
+def str_df_get_proper_Link():
     #~ saving the data to a variable
     csv_string = get_proper_Link()
 
@@ -65,8 +72,7 @@ def str_df():
     df = pd.read_csv(convertedCSV, sep =",") 
     print(df)
 
-str_df()
-
+str_df_get_proper_Link
 #// #TODO Make yesterday/today error go away\
 
 # #// #! error: main_df does not print properly, something is going wrong from line 68-75, need to figure out how to make functions work together
@@ -76,4 +82,3 @@ str_df()
 # #TODO change Province/State to State and Country/Region to Country
 # #TODO allow for user input ie "Which Country do you want to see"
 # #TODO interactive charts with the data, bokeh, plotly, pygal, mpld3, holoviews, geoplotlib
-
