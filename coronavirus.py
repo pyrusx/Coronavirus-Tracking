@@ -50,8 +50,8 @@ def str_csv(string):
 
     convertedCSV = StringIO(csv_string)
     reader = csv.reader(convertedCSV, delimiter=',')
-    for row in reader:
-        print('\t'.join(row))
+    # for row in reader:
+    #     print('\t'.join(row))
     return
 
 
