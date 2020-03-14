@@ -72,8 +72,23 @@ def str_df_get_proper_Link():
     csv_string = get_proper_Link()
 
     convertedCSV = StringIO(csv_string)
-    df = pd.read_csv(convertedCSV, sep =",") 
-    df_renamed = df.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
+    df1 = pd.read_csv(convertedCSV, sep =",") 
+    df = df1.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
+    
+    df_LAT_LONG = df[['Latitude', "Longitude"]]
+
+    df_LAT_LONG_np = df_LAT_LONG.to_numpy()
+
+    df_COUNTRY_CDR = df[['Country', 'Confirmed', 'Deaths', 'Recovered']]
+
+    df_STATE_CRD = df[['State', 'Confirmed', 'Deaths', 'Recovered']]
+
+    ax = plt.gca()
+
+    df.groupby('state')['name'].nunique().plot(kind='line',x='Country',y='Confirmed',ax=ax)
+    df_COUNTRY_CDR.plot(kind='line',x='Country',y='Deaths', color='red', ax=ax)
+    df_COUNTRY_CDR.plot(kind='line',x='Country',y='Recovered', color='green', ax=ax)
+    plt.savefig('country.pdf')
 
 str_df_get_proper_Link()
 
@@ -87,6 +102,6 @@ str_df_get_proper_Link()
 
 # #TODO make the code go back to the last accessible date if yesterday also does not have data
 # #TODO Figure out how to return the \t print statement
-# #TODO change Province/State to State and Country/Region to Country
+#// # #TODO change Province/State to State and Country/Region to Country
 # #TODO allow for user input ie "Which Country do you want to see"
-# #TODO interactive charts with the data, bokeh, plotly, pygal, mpld3, holoviews, geoplotlib
+# #TODO interactive charts with the data: bokeh, plotly, pygal, mpld3, holoviews, geoplotlib

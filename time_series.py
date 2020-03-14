@@ -16,32 +16,39 @@ from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 from collections import Counter
 
-from coronavirus_daily import access_Link
-
+#from coronavirus_daily import access_Link
 
 confirmed = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv'
 deaths = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv'
 recovered = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv'
 
 
-print(access_Link(confirmed))
-# def access_Link(link):
-#         uClient = uReq(link)
-#         html = uClient.read()
-#         uClient.close()
-#         main_soup = bs(html, "lxml")
+def access_Link(link):
+    uClient = uReq(link)
+    html = uClient.read()
+    uClient.close()
+    main_soup = bs(html, "lxml")
 
-#         return main_soup.body.get_text()
+    return main_soup.body.get_text()
+
+
+def plotting():
+    confirmedCSV = access_Link(confirmed)
+    deathsCSV = access_Link(deaths)
+    recoveredCSV = access_Link(recovered)
+
+    C = StringIO(confirmedCSV)
+    D = StringIO(deathsCSV)
+    R = StringIO(recoveredCSV)
+
+    dfC1 = pd.read_csv(C, sep =",") 
+    dfD1 = pd.read_csv(D, sep =",") 
+    dfR1 = pd.read_csv(R, sep =",") 
     
+    dfC = dfC1.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
+    dfD = dfD1.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
+    dfR = dfR1.rename({'Province/State': 'State', 'Country/Region': 'Country'}, axis=1)
 
-# def str_df(link):
-
-#     #~ saving the data to a variable
-#     confirmed_csv = access_Link(confirmed)
-
-
-#     convertedCSV = StringIO(csv_string)
-#     df = pd.read_csv(convertedCSV, sep =",") 
-#     print(df)
-
-# str_df()
+    dfC.plot()
+    plt.savefig('timeseries.pdf')
+plotting()
